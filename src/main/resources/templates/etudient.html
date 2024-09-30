@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste Etudients</title>
+    <span th:replace="~{index :: bootstrapImport}"></span>
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+</head>
+
+<body>
+
+<span th:replace="~{index :: navbar}"></span>
+<span th:replace="~{index :: footer}"></span>
+
+<div class="container">
+    <h1 class="color-change">Liste des etudients avec le prenom : <span th:text="${prenom}"></span></h1>
+    <table class="table" th:unless="${Etudients.isEmpty()}">
+        <thead>
+        <tr>
+            <th scope="col">Nom</th>
+            <th scope="col">Prénom</th>
+            <th scope="col">Age</th>
+            <th scope="col">Email</th>
+            <th scope="col">Image</th>
+        </tr>
+        </thead>
+        <tbody th:each="e : ${Etudients}">
+        <td th:text="${e.getNom()}"></td>
+        <td th:text="${e.getPrenom()}"></td>
+        <td th:text="${e.getAge()}"></td>
+        <td th:text="${e.getEmail()}"></td>
+        <td><img th:if="${e.image}" th:src="@{/images/{filename}(filename=${e.image})}" alt="Image de l'étudiant" style="width: 100px; height: auto;"></td>
+        </tbody>
+
+    </table>
+
+    <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
+        <input type="hidden" name="prenom" th:value="${prenom}">
+        <input type="file" name="image">
+        <button type="submit">Mettre une nouvelle image</button>
+    </form>
+
+
+</div>
+</body>
+
+
+</html>

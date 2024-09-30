@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste Etudients</title>
+    <span th:replace="~{index :: bootstrapImport}"></span>
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+</head>
+
+<body>
+
+<span th:replace="~{index :: navbar}"></span>
+<span th:replace="~{index :: footer}"></span>
+
+<h1>Login</h1>
+
+<form th:action="@{/login}" method="post">
+    <input type="text" name="username" placeholder="username">
+    <input type="text" name="password" placeholder="password">
+    <button type="submit">login</button>
+    </form>
+
+
+
+
+
+</body>
+
+
+</html>

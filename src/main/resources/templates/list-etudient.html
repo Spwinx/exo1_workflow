@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste Etudients</title>
+    <span th:replace="~{index :: bootstrapImport}"></span>
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+</head>
+
+<body>
+<span th:replace="~{index :: navbar}"></span>
+<span th:replace="~{index :: footer}"></span>
+
+
+<div class="container">
+    <h1 class="color-change" >Liste d'étudiant</h1>
+    <table class="table" th:unless="${Etudients.isEmpty()}">
+        <thead>
+        <tr>
+            <th scope="col">Nom</th>
+            <th scope="col">Prénom</th>
+            <th scope="col">Age</th>
+            <th scope="col">Email</th>
+            <th scope="col">Détails</th>
+            <th scope="col">Retirer</th>
+            <th scope="col">Update</th>
+        </tr>
+        </thead>
+        <tbody th:each="e : ${Etudients}">
+        <td th:text="${e.getNom()}"></td>
+        <td th:text="${e.getPrenom()}"></td>
+        <td th:text="${e.getAge()}"></td>
+        <td th:text="${e.getEmail()}"></td>
+        <td ><a  th:href="@{/etudient/{prenom}(prenom=${e.prenom})}" class="btn btn-outline-info">Détails</a></td>
+        <td ><a  th:href="@{/Supprime/{id}(id=${e.id})}"  class="btn btn-outline-danger">Exterminer la cible</a></td>
+        <td ><a  th:href="@{/update/{id}(id=${e.id})}" class="btn btn-outline-info">Update</a></td>
+        </tbody>
+    </table>
+</div>
+
+</body>
+
+
+</html>
