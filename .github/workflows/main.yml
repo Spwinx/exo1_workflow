@@ -24,4 +24,5 @@ jobs:
         run: mvn install
 
       - name: Build de l'application
-        run: mvn package
+        run: mvn clean spring-boot:run
+
