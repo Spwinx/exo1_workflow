@@ -17,6 +17,9 @@ jobs:
       - name: Récupération de notre application
         uses: actions/checkout@v4
 
+      - name: Donner les permissions d'exécution à mvnw
+        run: chmod +x ./mvnw
+
       - name: Installation des dépendances
         run: ./mvnw install
 
