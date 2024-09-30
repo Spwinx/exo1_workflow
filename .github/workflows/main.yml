@@ -4,7 +4,7 @@ on:
   push: 
 
 jobs:
-  mon-job: 
+  Spring_exo: 
     runs-on: ubuntu-latest
 
     steps: 
@@ -25,6 +25,3 @@ jobs:
 
       - name: Build de l'application
         run: mvn package
-
-      - name: Exécution des tests
-        run: mvn test
