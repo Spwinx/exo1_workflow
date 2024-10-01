@@ -13,17 +13,18 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Commenter l'issue
-        uses: actions/github-script@v6
+        uses: actions/github-script@v5  # Changement à v5 si v6 pose problème
         with:
           script: |
-            const issueComment = `Bonjour @${context.payload.issue.user.login}, nous avons bien pris en compte votre problème du nom : ${context.payload.issue.title}`;
+            const issueComment = `Bonjour @${context.payload.issue.user.login}, nous avons bien pris en compte votre problème du nom : "${context.payload.issue.title}"`;
             const issueNumber = context.payload.issue.number;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
 
+            // Utilisation de github pour créer un commentaire
             await github.issues.createComment({
-              owner,
-              repo,
+              owner: owner,
+              repo: repo,
               issue_number: issueNumber,
               body: issueComment
             });
