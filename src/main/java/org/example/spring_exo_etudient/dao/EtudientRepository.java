@@ -9,4 +9,5 @@ public interface EtudientRepository extends JpaRepository<Etudient, Integer> {
 
     List<Etudient> findByPrenom(String prenom);
 
+
 }
