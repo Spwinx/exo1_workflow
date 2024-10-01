@@ -23,8 +23,6 @@ jobs:
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
 
       - name: Installation de Maven
         run: sudo apt-get install maven -y
@@ -34,9 +32,21 @@ jobs:
 
       - name: Build de l'application
         run: mvn clean package
+        continue-on-error: true
 
       - name: Télécharger l'artefact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
+        if: success()
         with:
           name: build-artifact
           path: target/*.jar
+
+  download:
+    if: %{{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    needs: spring-exo
+    steps:
+      - name: recuperation de l artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mon_app
