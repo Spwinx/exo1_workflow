@@ -5,15 +5,25 @@ on:
     types: [opened]
 
 jobs:
-  Issue_Message: 
+  Comment_Issue: 
     runs-on: ubuntu-latest
 
     steps: 
-      - name: Définir des variables d'environnement
-        run: |
-          echo "GITHUB_ACTOR=${{ github.actor }}" >> $GITHUB_ENV
-          echo "ISSUE_TITLE=${{ github.event.issue.title }}" >> $GITHUB_ENV
+      - name: Récupération de l'application
+        uses: actions/checkout@v4
 
-      - name: Afficher le message
-        run: |
-          echo "Bonjour $GITHUB_ACTOR, nous avons bien pris en compte votre problème du nom : $ISSUE_TITLE"
+      - name: Commenter l'issue
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issueComment = `Bonjour @${context.payload.issue.user.login}, nous avons bien pris en compte votre problème du nom : ${context.payload.issue.title}`;
+            const issueNumber = context.payload.issue.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            await github.issues.createComment({
+              owner,
+              repo,
+              issue_number: issueNumber,
+              body: issueComment
+            });
