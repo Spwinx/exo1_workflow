@@ -8,7 +8,7 @@ jobs:
   commentaire:
     runs-on: ubuntu-latest
     permissions:
-      issues: write  # Autoriser l'écriture sur les issues
+      issues: write
 
     steps:
       - name: Installer GitHub CLI
@@ -16,7 +16,7 @@ jobs:
 
       - name: Réponse à une issue
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Utiliser le token d'accès GitHub
-          ISSUE_URL: ${{ github.event.issue.html_url }}  # URL de l'issue
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
         run: |
           gh issue comment $ISSUE_URL --body "Bonjour @${{ github.actor }}, nous avons bien pris en compte votre problème du nom : \"${{ github.event.issue.title }}\""

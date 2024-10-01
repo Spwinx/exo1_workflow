@@ -17,6 +17,14 @@ jobs:
       - name: Récupération de notre application
         uses: actions/checkout@v4
 
+      - name: Mise en cache des dépendances Maven
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
       - name: Installation de Maven
         run: sudo apt-get install maven -y
 
@@ -24,8 +32,10 @@ jobs:
         run: mvn install
 
       - name: Build de l'application
-        run: mvn clean spring-boot:run
+        run: mvn clean package
 
-      - name: Afficher le message
-        run: |
-          echo "Bonjour ${{ github.actor }}, nous avons bien pris en compte votre problème du nom : ${GITHUB_REF#refs/heads/}"
+      - name: Télécharger l'artefact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifact
+          path: target/*.jar
