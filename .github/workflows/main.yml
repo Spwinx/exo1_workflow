@@ -26,3 +26,6 @@ jobs:
       - name: Build de l'application
         run: mvn clean spring-boot:run
 
+      - name: Afficher le message
+        run: echo "Bonjour ${{ github.actor }}, nous avons bien pris en compte votre problème du nom : ${{ github.event.head_commit.message }}"
+
