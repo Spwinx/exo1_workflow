@@ -1,0 +1,16 @@
+name: Appelle du 1er workflow
+on:
+  workflow_dispatch
+
+jobs:
+  premier-job:
+    name: appelle du 1er workflow
+    uses: Spwinx/exo1_workflow/.github/workflows/outputs.yml@main
+
+  second-job:
+    name: Affichage des outputs du 1er outputs-workflow
+    runs-on: ubuntu-latest
+    needs: premier-job
+    steps:
+      - name: retourne variable1 et variable2
+         run: echo "${{ needs.premier-job.outputs.variable1 }} ${{ needs.premier-job.outputs.variable2 }}"

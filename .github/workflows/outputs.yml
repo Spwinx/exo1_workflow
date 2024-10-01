@@ -1,0 +1,32 @@
+names: workflow a reutiliser
+on:
+  workflow_call:
+  outputs:
+    variable1:
+      descriptions: premiere sortie
+      value: ${{ jobs.job1.outputs.sortie1 }}
+    variable2:
+      descriptions: seconde sortie
+      value: ${{ jobs.job2.outputs.sortie2 }}
+
+jobs:
+  job1: 
+    name: Genere des outputs
+    outputs:
+      sortie1: ${{ steps.etape1.outputs.VAR1 }}
+      sortie2: ${{ steps.etape1.outputs.VAR2 }}
+    steps:
+      - name: set VAR1
+        id: etape1
+        run: echo "VAR1=Hello" >> $GITHUB_OUTPUT
+      - name: set VAR2
+        id: etape2
+        run: echo "VAR2=World" >> $GITHUB_OUTPUT
+
+  job2:
+    name: Recupere les sorties de job1
+    runs-on: ubuntu-latest
+    needs: job1
+    steps:
+      - name: echo de sortie1 et sortie2
+        run: echo "${{ needs.job1.outputs.sortie1 }} ${{ needs.job2.outputs.sortie2 }}"
