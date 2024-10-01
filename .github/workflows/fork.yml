@@ -1,0 +1,13 @@
+name: Workflow lors d'un fork
+
+on: 
+  create:
+
+jobs:
+  Fork_Message: 
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Afficher le message de fork
+        run: |
+          echo "Bonjour ${{ github.actor }}, votre fork du projet a été créé !"

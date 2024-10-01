@@ -1,0 +1,19 @@
+name: Workflow lors de l'ouverture d'une issue
+
+on: 
+  issues:
+    types: [opened]
+
+jobs:
+  Issue_Message: 
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Définir des variables d'environnement
+        run: |
+          echo "GITHUB_ACTOR=${{ github.actor }}" >> $GITHUB_ENV
+          echo "ISSUE_TITLE=${{ github.event.issue.title }}" >> $GITHUB_ENV
+
+      - name: Afficher le message
+        run: |
+          echo "Bonjour $GITHUB_ACTOR, nous avons bien pris en compte votre problème du nom : $ISSUE_TITLE"
