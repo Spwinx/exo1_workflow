@@ -35,9 +35,13 @@ jobs:
         run: mvn clean package
         continue-on-error: true
 
-      - name: Télécharger l'artefact
+      - name: Tests
+        run: mvn test
+        continue-on-error: true
+
+      - name: Télécharger l'artefact (uniquement sur la branche main et si le build a réussi)
         uses: actions/upload-artifact@v4
-        if: success()
+        if: ${{ github.ref == 'refs/heads/main' && success() }}
         with:
           name: build-artifact
           path: target/*.jar
