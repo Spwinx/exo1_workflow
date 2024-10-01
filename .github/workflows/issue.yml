@@ -1,30 +1,22 @@
-name: Workflow lors de l'ouverture d'une issue
+name: Workflow qui se déclenche lors de la création d'une issue
 
-on: 
+on:
   issues:
     types: [opened]
 
 jobs:
-  Comment_Issue: 
+  commentaire:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write  # Autoriser l'écriture sur les issues
 
-    steps: 
-      - name: Récupération de l'application
-        uses: actions/checkout@v4
+    steps:
+      - name: Installer GitHub CLI
+        run: sudo apt-get install gh -y
 
-      - name: Commenter l'issue
-        uses: actions/github-script@v5  # Changement à v5 si v6 pose problème
-        with:
-          script: |
-            const issueComment = `Bonjour @${context.payload.issue.user.login}, nous avons bien pris en compte votre problème du nom : "${context.payload.issue.title}"`;
-            const issueNumber = context.payload.issue.number;
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
-
-            // Utilisation de github pour créer un commentaire
-            await github.issues.createComment({
-              owner: owner,
-              repo: repo,
-              issue_number: issueNumber,
-              body: issueComment
-            });
+      - name: Réponse à une issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Utiliser le token d'accès GitHub
+          ISSUE_URL: ${{ github.event.issue.html_url }}  # URL de l'issue
+        run: |
+          gh issue comment $ISSUE_URL --body "Bonjour @${{ github.actor }}, nous avons bien pris en compte votre problème du nom : \"${{ github.event.issue.title }}\""
